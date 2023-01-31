@@ -14,15 +14,10 @@ import { ConfigModule } from '@nestjs/config';
     PassportModule,
     JwtModule.register({
       secret: process.env.SECRET_KEY,
-      // secret: secretKey,
       signOptions: { expiresIn: '3600s' },
     }),
   ],
   providers: [AuthService, LocalStrategy, JwtStrategy],
   exports: [AuthService],
 })
-export class AuthModule {
-  // constructor(private configService: ConfigService) {
-  //   const secretKey = this.configService.get<string>('SECRET_KEY');
-  // }
-}
+export class AuthModule {}

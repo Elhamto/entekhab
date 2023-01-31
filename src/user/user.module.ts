@@ -3,6 +3,7 @@ import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from './schema/user.schema';
+import * as bcrypt from 'bcrypt';
 
 @Module({
   imports: [
@@ -13,18 +14,18 @@ import { User, UserSchema } from './schema/user.schema';
           const schema = UserSchema;
           schema.pre('save', async function (next) {
             console.log('Hello from pre save');
-            // try {
-            //   if (!this.isModified('password')) {
-            //     next();
-            //   } else {
-            //     const hashedPass = await bcrypt.hash(this['password'], 10);
-            //     this['password'] = hashedPass;
-            //     next();
-            //   }
-            // } catch (error) {
-            //   next(error);
+            try {
+              if (!this.isModified('password')) {
+                next();
+              } else {
+                const hashedPass = await bcrypt.hash(this['password'], 10);
+                this['password'] = hashedPass;
+                next();
+              }
+            } catch (error) {
+              next(error);
             next();
-            // }
+            }
           });
           return schema;
         },

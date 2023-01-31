@@ -32,7 +32,6 @@ export class AppController {
     return await this.authService.login(reg);
   }
 
-  // @UseGuards(LocalAuthGuard)
   @UseGuards(AuthGuard('local'))
   @Post('login')
   async login(@Request() req) {
